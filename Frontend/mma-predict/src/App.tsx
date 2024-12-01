@@ -9,6 +9,17 @@ interface Fighter {
   image: string;
 }
 
+const imageStyle = {
+  width: "200px",
+  height: "300px",
+};
+
+const defaultOptions = (fighters: Fighter[]) =>
+  fighters.slice(0, 10).map((fighter) => ({
+    value: fighter.id,
+    label: fighter.name,
+  }));
+
 const App: React.FC = () => {
   const [fighters, setFighters] = useState<Fighter[]>([]);
   const [fighter1, setFighter1] = useState<Fighter | null>(null);
@@ -16,14 +27,13 @@ const App: React.FC = () => {
   const [prediction, setPrediction] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Fetch fighters from CSV
   useEffect(() => {
     const fetchFighters = async () => {
-      const fighters = await csv("Data/ufc_fighter_details.csv"); // Adjust the path as needed
+      const fighters = await csv("Data/ufc_fighter_details.csv");
       const parsedFighters = fighters.map((fighter: any) => ({
-        id: fighter.id || `${fighter.FIRST}_${fighter.LAST}`, // Use FIRST and LAST for a unique id if needed
-        name: `${fighter.FIRST} ${fighter.LAST}`, // Concatenate FIRST and LAST to create the name
-        image: `/images/${fighter.FIRST}_${fighter.LAST}.png`, // Match your image filenames
+        id: fighter.id || `${fighter.FIRST}_${fighter.LAST}`,
+        name: `${fighter.FIRST} ${fighter.LAST}`,
+        image: `/images/${fighter.FIRST}_${fighter.LAST}.png`,
       }));
       setFighters(parsedFighters);
     };
@@ -36,14 +46,13 @@ const App: React.FC = () => {
       .filter((fighter) =>
         fighter.name.toLowerCase().includes(inputValue.toLowerCase())
       )
-      .slice(0, 10); // Limit for not slowing down the render
+      .slice(0, 10);
     return filteredFighters.map((fighter) => ({
       value: fighter.id,
       label: fighter.name,
     }));
   };
 
-  // Handle Prediction
   const handlePredict = async () => {
     if (!fighter1 || !fighter2) return;
 
@@ -78,7 +87,7 @@ const App: React.FC = () => {
 
   return (
     <div style={{ padding: "20px", textAlign: "center" }}>
-      <h1>UFC Fight predictor</h1>
+      <h1>UFC Fight Predictor</h1>
 
       <div
         style={{
@@ -93,17 +102,12 @@ const App: React.FC = () => {
           <img
             src={fighter1?.image || "https://via.placeholder.com/200"}
             alt={fighter1?.name || "Fighter"}
-            style={{
-              width: "200px",
-              height: "300px",
-            }}
+            style={imageStyle}
           />
           <h2>{fighter1?.name || "Select a Fighter"}</h2>
           <AsyncSelect
-            loadOptions={loadOptions} // Async search
-            defaultOptions={fighters
-              .slice(0, 10)
-              .map((fighter) => ({ value: fighter.id, label: fighter.name }))} // Initial top 10 fighters
+            loadOptions={loadOptions}
+            defaultOptions={defaultOptions(fighters)}
             onChange={(option: any) =>
               setFighter1(fighters.find((f) => f.id === option?.value) || null)
             }
@@ -119,17 +123,12 @@ const App: React.FC = () => {
           <img
             src={fighter2?.image || "https://via.placeholder.com/200"}
             alt={fighter2?.name || "Fighter"}
-            style={{
-              width: "200px",
-              height: "300px",
-            }}
+            style={imageStyle}
           />
           <h2>{fighter2?.name || "Select a Fighter"}</h2>
           <AsyncSelect
-            loadOptions={loadOptions} // Async search
-            defaultOptions={fighters
-              .slice(0, 10)
-              .map((fighter) => ({ value: fighter.id, label: fighter.name }))} // Initial top 10 fighters
+            loadOptions={loadOptions}
+            defaultOptions={defaultOptions(fighters)}
             onChange={(option: any) =>
               setFighter2(fighters.find((f) => f.id === option?.value) || null)
             }
