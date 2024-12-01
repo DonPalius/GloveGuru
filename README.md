@@ -1,6 +1,6 @@
-# MMA-Predict
+# GloveGuru
 
-MMA-Predict is a machine learning project designed to predict the probability of victory in a fight between two UFC fighters. The application consists of a **frontend** built with **React** and **TypeScript**, and a **backend** implemented in **Python** using **FastAPI**. The machine learning model is currently a **TODO** and will be developed to provide accurate predictions based on fighter statistics.
+GloveGuru is a machine learning project designed to predict the probability of victory in a fight between two UFC fighters. The application consists of a **frontend** built with **React** and **TypeScript**, and a **backend** implemented in **Python** using **FastAPI**. The machine learning model is currently a **TODO** and will be developed to provide accurate predictions based on fighter statistics.
 
 ---
 
